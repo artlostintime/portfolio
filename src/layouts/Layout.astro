@@ -2,6 +2,7 @@
 import Navigation from '../components/Navigation.astro';
 import Stars from '../components/Stars.astro';
 import EnhancedEffects from '../components/EnhancedEffects.astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
 
 interface Props {
@@ -29,5 +30,7 @@ const { title } = Astro.props;
   <main id="main-content" style="margin-top: 80px;">
     <slot />
   </main>
+
+  <SpeedInsights />
 </body>
 </html>
