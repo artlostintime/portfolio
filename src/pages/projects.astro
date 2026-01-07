@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+  {
+    title: 'PRISM',
+    description: 'Psychology survey data processing pipeline built in Rust. Automates scoring, quality control, and psychometric analysis for research workflows.',
+    tags: ['Rust', 'Psychology', 'Open Source'],
+    link: 'https://github.com/artlostintime/prism',
+    status: 'Active',
+    year: '2024'
+  },
+  {
+    title: 'PAPER',
+    description: 'Research portfolio & content management system. Built with Node.js featuring markdown support, secure authentication, and live deployment.',
+    tags: ['Node.js', 'JavaScript', 'Full-Stack'],
+    link: 'https://github.com/artlostintime/paper',
+    status: 'Active',
+    year: '2024'
+  },
+  {
+    title: 'Stress & Gender Differences Study',
+    description: 'Collaborative research examining stress coping strategies and cultural pressures. Statistical analysis revealed significant differences (p < .05, d = 0.62).',
+    tags: ['Research', 'SPSS', 'Statistics'],
+    link: '#',
+    status: 'Completed',
+    year: '2023'
+  },
+  {
+    title: 'Cognitive Load Literature Review',
+    description: 'Systematic review of 22 peer-reviewed articles examining divided attention, notification effects, and working memory in digital environments.',
+    tags: ['Research', 'Literature Review', 'Cognition'],
+    link: '#',
+    status: 'Completed',
+    year: '2023'
+  },
+  {
+    title: 'Burnout in Clinical Training',
+    description: 'Mixed-methods study proposal examining predictors of burnout among clinical psychology practicum students. Currently in development.',
+    tags: ['Research Proposal', 'Mixed-Methods', 'Clinical'],
+    link: '#',
+    status: 'In Progress',
+    year: '2024'
+  }
+];
+---
+
+<Layout title="Projects - VISHU">
+  <div class="content page-enter">
+    <h1 class="glitch" data-text="PROJECTS" style="margin: 2rem 0;">PROJECTS</h1>
+    
+    <div class="project-grid">
+      {projects.map((project, index) => (
+        <a href={project.link} target={project.link.startsWith('http') ? '_blank' : '_self'} rel={project.link.startsWith('http') ? 'noopener noreferrer' : ''} class="project-link">
+          <div class="project-card fade-in" style={`transition-delay: ${index * 0.1}s`}>
+            <div class="project-header">
+              <span class="project-number">{String(index + 1).padStart(2, '0')}</span>
+              <span class={`project-status status-${project.status.toLowerCase().replace(' ', '-')}`}>
+                {project.status === 'Active' && '●'}
+                {project.status === 'Completed' && '✓'}
+                {project.status === 'In Progress' && '◐'}
+                {project.status}
+              </span>
+            </div>
+            
+            <div class="project-content">
+              <div class="project-title-wrapper">
+                <h3>{project.title}</h3>
+                <span class="project-year">{project.year}</span>
+              </div>
+              <p>{project.description}</p>
+            </div>
+            
+            <div class="project-footer">
+              <div class="project-tags">
+                {project.tags.map(tag => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <div class="project-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+  <button id="scrollTop" class="scroll-top" aria-label="Scroll to top">↑</button>
+</Layout>
+
+<script>
+  // Trigger animations
+  setTimeout(() => {
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  }, 100);
+
+  // Scroll to top functionality
+  const scrollTopBtn = document.getElementById('scrollTop');
+  
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn?.classList.add('visible');
+    } else {
+      scrollTopBtn?.classList.remove('visible');
+    }
+  });
+
+  scrollTopBtn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>

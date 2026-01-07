@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="VISHU - Portfolio">
+  <div class="loading-screen" id="loadingScreen">
+    <h1>LOADING</h1>
+    <div style="width: 200px; height: 3px; background: rgba(0, 217, 255, 0.2); margin-top: 2rem; border-radius: 10px; overflow: hidden;">
+      <div id="loadingBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #00d9ff, #00ff88); transition: width 0.3s ease; box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);"></div>
+    </div>
+  </div>
+  
+  <div class="content page-enter" id="mainContent" style="opacity: 0; transition: opacity 0.8s ease;">
+    <section style="height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 1rem;">
+      <h1 class="glitch" data-text="VISHU" style="margin-bottom: 1.5rem;">VISHU</h1>
+      <div class="typewriter" style="max-width: 600px; padding: 0 1rem;">
+        <p style="font-size: 1.3rem; line-height: 1.5;">
+          Psychology Researcher & Developer
+        </p>
+      </div>
+      <p style="font-size: 1.05rem; margin-top: 0.75rem; color: var(--gray); padding: 0 1rem;">
+        Building tools for cognitive science
+      </p>
+      <div style="margin-top: 2.5rem; display: flex; gap: 1rem; font-size: 1.1rem; flex-wrap: wrap; justify-content: center; padding: 0 1rem; width: 100%; max-width: 400px;">
+        <a href="/projects" class="cta-button fade-in">View Projects</a>
+        <a href="/about" class="cta-button cta-button-secondary fade-in">About Me</a>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  // Always show loading screen on every page load (like video games)
+  const loadingScreen = document.getElementById('loadingScreen');
+  const mainContent = document.getElementById('mainContent');
+  
+  let progress = 0;
+  const loadingBar = document.getElementById('loadingBar');
+  
+  // Animate loading bar
+  const loadingInterval = setInterval(() => {
+    progress += Math.random() * 20;
+    if (progress > 100) progress = 100;
+    if (loadingBar) loadingBar.style.width = progress + '%';
+    if (progress === 100) clearInterval(loadingInterval);
+  }, 70);
+  
+  // Keep loading screen visible for 1.5 seconds total
+  setTimeout(() => {
+    if (loadingScreen) loadingScreen.classList.add('hide');
+    
+    // Show main content after loading screen finishes fading out
+    setTimeout(() => {
+      if (mainContent) mainContent.style.opacity = '1';
+      
+      // Trigger fade-in animations after content is visible
+      setTimeout(() => {
+        document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+      }, 100);
+    }, 500);
+  }, 1500);
+</script>

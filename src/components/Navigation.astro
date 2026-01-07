@@ -1,0 +1,251 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="navigation">
+  <a href="/" class="logo">
+    <svg width="40" height="40" viewBox="0 0 40 40">
+      <path d="M20 5 L23 15 L33 15 L25 21 L28 31 L20 25 L12 31 L15 21 L7 15 L17 15 Z" 
+            fill="white" stroke="white" stroke-width="2"/>
+    </svg>
+  </a>
+  
+  <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/" class:list={[{active: currentPath === '/'}]}>HOME</a></li>
+    <li><a href="/social" class:list={[{active: currentPath === '/social'}]}>SOCIAL</a></li>
+    <li><a href="/projects" class:list={[{active: currentPath === '/projects'}]}>PROJECTS</a></li>
+    <li><a href="/about" class:list={[{active: currentPath === '/about'}]}>ABOUT</a></li>
+  </ul>
+</nav>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<style>
+  .navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+    z-index: 1000;
+    backdrop-filter: blur(15px);
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .logo:hover {
+    transform: rotate(15deg) scale(1.1);
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .nav-links a {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #00d9ff;
+  }
+  
+  .nav-links a.active {
+    color: #00d9ff;
+  }
+  
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  
+  /* Mobile menu toggle button */
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1002;
+  }
+  
+  .mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--white);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+  
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+  }
+  
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+  
+  /* Mobile overlay */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .mobile-overlay.active {
+    opacity: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .navigation {
+      padding: 1rem;
+    }
+    
+    .mobile-menu-toggle {
+      display: flex;
+    }
+    
+    .nav-links {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      height: 100vh;
+      width: 70%;
+      max-width: 300px;
+      flex-direction: column;
+      gap: 0;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(20px);
+      padding: 5rem 2rem 2rem;
+      border-left: 2px solid rgba(0, 217, 255, 0.3);
+      z-index: 1001;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .nav-links.active {
+      right: 0;
+    }
+    
+    .nav-links li {
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-links a {
+      display: block;
+      padding: 1.25rem 0;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      padding-left: 1rem;
+      background: rgba(0, 217, 255, 0.05);
+    }
+    
+    .nav-links a.active::after {
+      display: none;
+    }
+    
+    .nav-links a.active {
+      background: rgba(0, 217, 255, 0.1);
+      border-left: 3px solid var(--accent);
+      padding-left: 1rem;
+    }
+    
+    .mobile-overlay {
+      display: block;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .nav-links {
+      width: 80%;
+      max-width: none;
+    }
+  }
+</style>
+
+<script>
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const navLinks = document.getElementById('navLinks');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  
+  function toggleMenu() {
+    mobileMenuToggle?.classList.toggle('active');
+    navLinks?.classList.toggle('active');
+    mobileOverlay?.classList.toggle('active');
+    
+    const isExpanded = mobileMenuToggle?.classList.contains('active');
+    mobileMenuToggle?.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    
+    // Prevent body scroll when menu is open
+    if (isExpanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+  
+  mobileMenuToggle?.addEventListener('click', toggleMenu);
+  mobileOverlay?.addEventListener('click', toggleMenu);
+  
+  // Close menu when clicking on a link
+  navLinks?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        toggleMenu();
+      }
+    });
+  });
+  
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks?.classList.contains('active')) {
+      toggleMenu();
+    }
+  });
+</script>
