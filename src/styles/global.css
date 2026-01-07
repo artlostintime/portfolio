@@ -49,6 +49,12 @@ body {
   padding: 6rem 2rem 3rem;
 }
 
+/* Center page headings */
+.content > h1 {
+  text-align: center;
+  margin: 1.5rem 0 2.5rem 0;
+}
+
 /* Focus styles for accessibility */
 *:focus-visible {
   outline: 2px solid var(--accent);
@@ -1144,6 +1150,12 @@ a:focus {
   position: relative;
   display: inline-block;
   text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+/* Center glitch headings in content */
+.content > .glitch {
+  display: block;
+  text-align: center;
 }
 
 .glitch:hover::before,
