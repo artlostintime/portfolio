@@ -1,6 +1,6 @@
 # Build output
-dist/
-.astro/
+.next/
+out/
 
 # Dependencies
 node_modules/
@@ -13,6 +13,7 @@ pnpm-debug.log*
 
 # Environment variables
 .env
+.env.local
 .env.production
 
 # MacOS
@@ -23,3 +24,6 @@ pnpm-debug.log*
 .idea/
 *.swp
 *.swo
+
+# Next.js
+next-env.d.ts
