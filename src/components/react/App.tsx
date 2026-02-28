@@ -8,6 +8,7 @@ import Projects from "./Projects";
 import Social from "./Social";
 import Footer from "./Footer";
 import DotNav from "./DotNav";
+import BackToTop from "./BackToTop";
 import { scrollToSection } from "./utils/scroll";
 import { ease } from "./utils/constants";
 import { useTheme } from "./utils/useTheme";
@@ -117,9 +118,9 @@ export default function App() {
 
   return (
     <ErrorBoundary>
-      <div className="bg-[var(--bg)] text-[var(--text-1)] min-h-screen font-sans overflow-x-hidden">
-        {/* Dot grid background overlay */}
-        <div className="fixed inset-0 dot-grid pointer-events-none z-0" />
+      <div className="bg-[var(--bg)] text-[var(--text-1)] min-h-screen overflow-x-hidden mx-auto">
+        {/* Subtle paper texture overlay */}
+        <div className="fixed inset-0 paper-texture pointer-events-none z-0 opacity-50" />
         <ScrollProgress />
         <Navbar theme={theme} toggleTheme={toggleTheme} />
         <DotNav />
@@ -147,6 +148,7 @@ export default function App() {
           )}
         </AnimatePresence>
         <Footer />
+        <BackToTop />
       </div>
     </ErrorBoundary>
   );

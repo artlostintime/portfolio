@@ -51,22 +51,22 @@ export default function Footer() {
 
   return (
     <footer className="bg-[var(--bg)] relative">
-      <div className="h-px bg-[var(--border)]" />
+      <div className="h-px bg-[var(--rule)]" />
 
-      <div className="max-w-7xl mx-auto px-8 md:px-20 lg:px-36 py-10 flex items-center justify-between">
-        <p className="text-[var(--text-10)] text-xs font-mono">
-          © {new Date().getFullYear()} Vishu
+      <div className="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between">
+        <p className="text-[var(--footnote)] text-[11px] font-mono tracking-wide">
+          © {new Date().getFullYear()} Vishu Singh · All rights reserved
         </p>
 
         <motion.button
           onClick={() => scrollToSection("home")}
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.92 }}
-          className="flex items-center gap-2 text-[var(--text-10)] hover:text-[var(--accent)] transition-colors duration-300 text-xs font-mono group"
+          className="flex items-center gap-2 text-[var(--footnote)] hover:text-[var(--accent)] transition-colors duration-300 text-[11px] font-mono group"
           aria-label="Back to top"
         >
           <ArrowUp className="w-3 h-3 group-hover:-translate-y-0.5 transition-transform duration-200" />
-          Top
+          Back to title
         </motion.button>
       </div>
 
@@ -79,8 +79,8 @@ export default function Footer() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="text-center py-4 border-t border-[var(--border)]">
-              <p className="text-[var(--text-9)] text-xs font-mono tracking-widest">
+            <div className="text-center py-4 border-t border-[var(--rule)]">
+              <p className="text-[var(--footnote)] text-[11px] font-mono tracking-widest italic">
                 You found the secret. Thanks for exploring.
               </p>
             </div>

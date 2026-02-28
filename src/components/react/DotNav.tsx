@@ -4,10 +4,10 @@ import { scrollToSection } from "./utils/scroll";
 import { ease } from "./utils/constants";
 
 const sections = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "projects", label: "Work" },
-  { id: "social", label: "Contact" },
+  { id: "home", label: "Title", num: "I" },
+  { id: "about", label: "Author Note", num: "II" },
+  { id: "projects", label: "Works", num: "III" },
+  { id: "social", label: "Correspondence", num: "IV" },
 ] as const;
 
 export default function DotNav() {
@@ -55,66 +55,51 @@ export default function DotNav() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 20 }}
           transition={{ duration: 0.4, ease }}
-          className="fixed right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-4"
+          className="fixed right-6 lg:right-10 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-end gap-3"
           aria-label="Section navigation"
         >
-          {sections.map(({ id, label }) => {
+          {sections.map(({ id, label, num }) => {
             const isActive = active === id;
             const isHovered = hovered === id;
 
             return (
-              <div key={id} className="relative flex items-center">
-                {/* Label tooltip */}
+              <button
+                key={id}
+                onClick={() => handleClick(id)}
+                onMouseEnter={() => setHovered(id)}
+                onMouseLeave={() => setHovered(null)}
+                className="group flex items-center gap-2"
+                aria-label={`Scroll to ${label}`}
+                aria-current={isActive ? "true" : undefined}
+              >
+                {/* Label — shown on hover */}
                 <AnimatePresence>
                   {isHovered && (
                     <motion.span
-                      initial={{ opacity: 0, x: 8 }}
+                      initial={{ opacity: 0, x: 6 }}
                       animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 8 }}
+                      exit={{ opacity: 0, x: 6 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-8 text-[11px] font-mono tracking-wider text-[var(--text-6)] whitespace-nowrap"
+                      className="text-[10px] font-mono tracking-wider text-[var(--footnote)] whitespace-nowrap"
                     >
                       {label}
                     </motion.span>
                   )}
                 </AnimatePresence>
 
-                {/* Dot */}
-                <button
-                  onClick={() => handleClick(id)}
-                  onMouseEnter={() => setHovered(id)}
-                  onMouseLeave={() => setHovered(null)}
-                  className="relative w-5 h-5 flex items-center justify-center group"
-                  aria-label={`Scroll to ${label}`}
-                  aria-current={isActive ? "true" : undefined}
+                {/* Roman numeral marker */}
+                <span
+                  className={`text-[10px] font-mono transition-colors duration-300 ${
+                    isActive
+                      ? "text-[var(--accent)]"
+                      : "text-[var(--text-9)] group-hover:text-[var(--text-5)]"
+                  }`}
                 >
-                  {/* Outer ring on active */}
-                  {isActive && (
-                    <motion.span
-                      layoutId="dot-ring"
-                      className="absolute inset-0 rounded-full border border-[var(--accent)]/30"
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  {/* Inner dot */}
-                  <span
-                    className={`block rounded-full transition-all duration-300 ${
-                      isActive
-                        ? "w-2 h-2 bg-[var(--accent)]"
-                        : "w-1.5 h-1.5 bg-[var(--text-10)] group-hover:bg-[var(--text-6)]"
-                    }`}
-                  />
-                </button>
-              </div>
+                  {num}
+                </span>
+              </button>
             );
           })}
-
-          {/* Vertical connecting line */}
-          <div className="absolute top-2.5 bottom-2.5 left-1/2 -translate-x-px w-px bg-[var(--border)] -z-10" />
         </motion.nav>
       )}
     </AnimatePresence>

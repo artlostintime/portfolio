@@ -1,15 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { ArrowDown } from "lucide-react";
 import { scrollToSection } from "./utils/scroll";
 import { ease } from "./utils/constants";
 
-const roles = ["Psychology Researcher", "Developer", "Creative Technologist"];
+const keywords = [
+  "cognitive psychology",
+  "human-computer interaction",
+  "burnout research",
+  "data pipelines",
+  "psychometric analysis",
+];
 
 export default function Hero() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [deleting, setDeleting] = useState(false);
+  const [currentKeyword, setCurrentKeyword] = useState(0);
 
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -17,135 +20,140 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.6], [0, 60]);
+  const heroY = useTransform(scrollYProgress, [0, 0.6], [0, 40]);
 
   useEffect(() => {
-    const current = roles[roleIndex];
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (!deleting && displayed.length < current.length) {
-      timeout = setTimeout(
-        () => setDisplayed(current.slice(0, displayed.length + 1)),
-        60,
-      );
-    } else if (!deleting && displayed.length === current.length) {
-      timeout = setTimeout(() => setDeleting(true), 2000);
-    } else if (deleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 35);
-    } else if (deleting && displayed.length === 0) {
-      setDeleting(false);
-      setRoleIndex((i) => (i + 1) % roles.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayed, deleting, roleIndex]);
+    const interval = setInterval(() => {
+      setCurrentKeyword((i) => (i + 1) % keywords.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section
       ref={containerRef}
       id="home"
-      className="relative min-h-screen flex flex-col justify-center bg-[var(--bg)] overflow-hidden px-8 md:px-20 lg:px-36"
+      className="relative min-h-screen flex flex-col justify-center bg-[var(--bg)] overflow-hidden px-6"
     >
-      {/* Subtle warm gradient — centered above */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-[var(--accent)]/3 rounded-full blur-[200px] pointer-events-none" />
-
       {/* Main content with parallax */}
       <motion.div
         style={{ opacity: heroOpacity, y: heroY }}
-        className="z-10 relative max-w-7xl mx-auto w-full text-left"
+        className="z-10 relative max-w-3xl mx-auto w-full text-center"
       >
-        {/* Pre-heading tag */}
+        {/* Running head */}
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6, ease }}
-          className="text-[var(--text-5)] text-xs tracking-[0.3em] uppercase mb-10 font-mono"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8, ease }}
+          className="text-[var(--text-8)] text-[10px] font-mono uppercase tracking-[0.35em] mb-16"
         >
-          Portfolio — 2026
+          Running head: PORTFOLIO OF VISHU
         </motion.p>
 
-        {/* Name — massive display */}
+        {/* Title — academic paper style */}
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 1, ease }}
-          className="font-display text-[clamp(4rem,15vw,11rem)] leading-[0.9] font-extrabold tracking-[-0.04em] text-[var(--text-1)] mb-8"
+          className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[1.2] font-medium text-[var(--text-1)] mb-8 italic"
         >
-          Vishu
-          <span className="text-[var(--accent)]">.</span>
+          At the Intersection of
+          <br />
+          Psychology &amp; Technology
         </motion.h1>
 
-        {/* Role typewriter */}
+        {/* Author */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-          className="mb-8 h-8 flex items-center"
+          transition={{ delay: 0.6, duration: 0.6, ease }}
+          className="mb-4"
         >
-          <span className="text-[var(--accent)] text-lg md:text-xl font-light tracking-wide">
-            {displayed}
-            <span className="inline-block w-0.5 h-5 bg-[var(--accent)] ml-1 animate-pulse align-middle" />
-          </span>
+          <p className="text-[var(--text-2)] text-lg font-display tracking-wide">
+            Vishu Singh
+          </p>
         </motion.div>
 
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.7, ease }}
-          className="max-w-lg text-[var(--text-4)] text-base md:text-lg leading-[1.8] font-light mb-14"
+        {/* Affiliation */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.6, ease }}
+          className="mb-12"
         >
-          Building digital tools at the intersection of cognitive science and
-          technology. Based in Delhi, India.
-        </motion.p>
+          <p className="text-[var(--text-5)] text-sm italic">
+            Department of Psychology, Ambedkar University Delhi
+          </p>
+        </motion.div>
 
-        {/* CTAs */}
+        {/* Horizontal rule */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.8, duration: 0.8, ease }}
+          className="w-24 h-px bg-[var(--accent)] mx-auto mb-12 origin-center"
+        />
+
+        {/* Abstract */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.7, ease }}
-          className="flex items-center gap-6"
+          transition={{ delay: 0.9, duration: 0.7, ease }}
+          className="text-left max-w-2xl mx-auto pencil-cursor"
+        >
+          <h2 className="font-display text-center text-base font-semibold text-[var(--text-1)] mb-4 tracking-wide">
+            Abstract
+          </h2>
+          <p className="text-[var(--text-3)] text-[15px] leading-[2] indent-8">
+            This portfolio documents the work of an undergraduate psychology
+            researcher and developer based in Delhi, India. The author explores
+            cognitive science, builds digital tools for research workflows, and
+            investigates human behavior at the intersection of technology and
+            mind. Areas of focus include burnout research, psychometric data
+            pipelines, and human-computer interaction.
+          </p>
+
+          {/* Keywords */}
+          <div className="mt-6 flex flex-wrap items-baseline gap-x-1">
+            <span className="text-[var(--text-3)] text-[15px] italic mr-1">
+              Keywords:
+            </span>
+            {keywords.map((kw, i) => (
+              <motion.span
+                key={kw}
+                animate={{
+                  color:
+                    i === currentKeyword ? "var(--accent)" : "var(--text-5)",
+                }}
+                transition={{ duration: 0.5 }}
+                className="text-[15px]"
+              >
+                {kw}
+                {i < keywords.length - 1 ? "," : ""}&nbsp;
+              </motion.span>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Navigation hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8, duration: 0.8 }}
+          className="mt-20 flex justify-center gap-8"
         >
           <button
-            onClick={() => scrollToSection("projects")}
-            className="group flex items-center gap-3 text-[var(--text-1)] text-sm tracking-wide hover:text-[var(--accent)] transition-colors duration-300"
-          >
-            <span className="w-12 h-px bg-[var(--accent)] group-hover:w-16 transition-[width] duration-300" />
-            View Work
-          </button>
-
-          <button
             onClick={() => scrollToSection("about")}
-            className="text-[var(--text-6)] text-sm tracking-wide hover:text-[var(--text-3)] transition-colors duration-300"
+            className="text-[var(--text-8)] hover:text-[var(--accent)] text-xs font-mono tracking-widest uppercase transition-colors duration-300"
           >
-            About Me
+            Continue reading →
           </button>
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator — bottom left */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.0, duration: 0.8 }}
-        className="absolute bottom-8 left-8 md:left-20 lg:left-36 text-[var(--text-10)] hover:text-[var(--text-7)] transition-colors flex items-center gap-3"
-        onClick={() => scrollToSection("about")}
-        aria-label="Scroll down"
-      >
-        <motion.div
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="w-4 h-4" />
-        </motion.div>
-        <span className="text-[10px] tracking-[0.3em] uppercase font-mono">
-          Scroll
-        </span>
-      </motion.button>
-
-      {/* Section counter — bottom right */}
-      <div className="absolute bottom-8 right-8 md:right-20 lg:right-36 hidden md:block">
-        <span className="text-[var(--text-11)] text-xs font-mono">01 / 04</span>
+      {/* Page number — bottom center */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
+        <span className="text-[var(--text-9)] text-xs font-mono">1</span>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, BookOpen } from "lucide-react";
 import { scrollToSection } from "./utils/scroll";
 import { ease } from "./utils/constants";
 
@@ -45,10 +45,10 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
   }, []);
 
   const links = [
-    { name: "Home", id: "home" },
-    { name: "About", id: "about" },
-    { name: "Work", id: "projects" },
-    { name: "Contact", id: "social" },
+    { name: "Title", id: "home" },
+    { name: "Author Note", id: "about" },
+    { name: "Works", id: "projects" },
+    { name: "Correspondence", id: "social" },
   ];
 
   const handleNav = (id: string) => {
@@ -66,26 +66,26 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           scrolled ? "bg-[var(--nav-bg)] backdrop-blur-xl" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-8 md:px-20 lg:px-36 h-16 flex items-center justify-between">
-          {/* Logo */}
+        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
+          {/* Journal-style running header */}
           <button
             onClick={() => handleNav("home")}
             className="group relative z-50"
             aria-label="Scroll to top"
           >
-            <span className="font-display text-base font-bold text-[var(--text-1)] tracking-tight">
-              vishu<span className="text-[var(--accent)]">.</span>
+            <span className="font-display text-sm italic text-[var(--text-4)] tracking-wide hover:text-[var(--text-1)] transition-colors duration-300">
+              V. Singh — Portfolio
             </span>
           </button>
 
-          {/* Desktop links with underline indicator */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop links — understated academic nav */}
+          <div className="hidden md:flex items-center gap-6">
             {links.map((link) => (
               <button
                 key={link.id}
                 onClick={() => handleNav(link.id)}
                 aria-current={active === link.id ? "true" : undefined}
-                className="relative text-[13px] tracking-wide py-2 group"
+                className="relative text-[12px] font-mono tracking-wider py-2 group uppercase"
               >
                 <span
                   className={`transition-colors duration-300 ${
@@ -109,6 +109,18 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 )}
               </button>
             ))}
+            {/* External link to papers archive */}
+            <a
+              href="https://shuvi.tech"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative text-[12px] font-mono tracking-wider py-2 group uppercase flex items-center gap-1.5"
+            >
+              <span className="text-[var(--text-8)] group-hover:text-[var(--text-5)] transition-colors duration-300">
+                Papers
+              </span>
+              <BookOpen className="w-3 h-3 text-[var(--text-9)] group-hover:text-[var(--text-5)] transition-colors duration-300" />
+            </a>
           </div>
 
           {/* Theme toggle + Mobile Menu Button */}
@@ -174,6 +186,11 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             </button>
           </div>
         </div>
+
+        {/* Thin rule under header when scrolled */}
+        {scrolled && (
+          <div className="h-px bg-[var(--rule)] max-w-3xl mx-auto" />
+        )}
       </motion.nav>
 
       {/* Mobile Menu Overlay */}
@@ -184,27 +201,42 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-[var(--bg)]/98 backdrop-blur-xl flex flex-col items-start justify-center pl-10"
+            className="fixed inset-0 z-40 bg-[var(--bg)]/98 backdrop-blur-xl flex flex-col items-center justify-center"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col items-center gap-6">
               {links.map((link, i) => (
                 <motion.button
                   key={link.id}
-                  initial={{ x: -30, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: -30, opacity: 0 }}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
                   transition={{ delay: 0.06 * i, duration: 0.4, ease }}
                   aria-current={active === link.id ? "true" : undefined}
-                  className={`text-5xl font-display font-bold tracking-tight transition-colors duration-300 text-left ${
+                  className={`font-display text-2xl italic tracking-wide transition-colors duration-300 ${
                     active === link.id
                       ? "text-[var(--accent)]"
-                      : "text-[var(--text-11)] hover:text-[var(--text-6)]"
+                      : "text-[var(--text-5)] hover:text-[var(--text-2)]"
                   }`}
                   onClick={() => handleNav(link.id)}
                 >
                   {link.name}
                 </motion.button>
               ))}
+
+              {/* Papers archive link in mobile menu */}
+              <motion.a
+                href="https://shuvi.tech"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ delay: 0.06 * links.length, duration: 0.4, ease }}
+                className="font-display text-2xl italic tracking-wide text-[var(--text-5)] hover:text-[var(--text-2)] transition-colors duration-300 flex items-center gap-2"
+              >
+                Papers
+                <BookOpen className="w-5 h-5" />
+              </motion.a>
             </div>
           </motion.div>
         )}
